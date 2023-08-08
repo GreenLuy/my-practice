@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <windows.h>
+#include <math.h>
+
+#define M_PI 3.14159265358979323846
+
+const char width = 120, height = 30;
+
+void draw(char back[], float cx, float cy)
+{
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+		{
+			char pixel = ' ';
+			float mx = (float)j / width * 2 - 1 + cx;
+			float x = (float)j / width * 2 - 1;
+			float y = (float)i / height * 2 - 1;
+
+			if (mx * mx < 0.5 && y * y < 0.05)
+			{
+				if (j % 2 == 0 or j % 3 == 0)
+				{
+					pixel = '_';
+				}
+				else
+					pixel = ' ';
+			}
+			back[j + i * width] = pixel;
+		}
+	printf(back);
+	Sleep(10);
+}
+
+int main()
+{
+	char *back = new char[width * height + 1];
+	back[width * height] = '\0';
+	float cx = 0.0, cy = 0.0;
+	int grad = 0;
+	while (1)
+	{
+		draw(back, cx, cy);
+		cx = sin(grad * M_PI / 180.0);
+		grad = grad + 5;
+	}
+}
