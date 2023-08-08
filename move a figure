@@ -5,6 +5,10 @@
 
 #define M_PI 3.14159265358979323846
 
+const char gradient[] = "@&%G$#O/-";
+
+const float size = 0.1;
+
 const int width = 120, height = 30, high = 16, wid = 8;
 
 void draw(char back[], float cx, float cy)
@@ -16,8 +20,16 @@ void draw(char back[], float cx, float cy)
 			char pixel = ' ';
 			float my = (float)i / height * 2 - 1 + cy;
 			float mx = (float)j / width * 2 - 1 + cx;
-			if (mx * mx * 4 + my * my < 0.1)	//регулирует фигуру
-				pixel = '@';
+			float figure = (mx * mx * 4 + my * my);
+			if (figure  < 0.5 && figure > size)	//регулирует фигуру
+			{
+				pixel = (figure < 0.14) ? gradient[7] :
+					(figure < 0.2) ? gradient[5] :
+					(figure < 0.25) ? gradient[5] :
+					(figure < 0.3) ? gradient[0] :
+					(figure < 0.4) ? gradient[5] :
+					gradient[7];
+			}
 			back[j + i * width] = pixel;
 		}
 	}
@@ -35,7 +47,7 @@ int main()
 	{
 		draw(back, cx, cy);
 		cx = sin(grad * M_PI / 180.0);
-		cy = cos(grad * M_PI / 180.0);
+		//cy = cos(grad * M_PI / 180.0);
 		grad = grad + 1;	//grad регулирует скорость передвижение 
 	}
 
